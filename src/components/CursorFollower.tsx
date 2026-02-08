@@ -5,13 +5,15 @@ export default function CursorFollower() {
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
 
-  const sx = useSpring(x, { stiffness: 600, damping: 40, mass: 0.3 });
-  const sy = useSpring(y, { stiffness: 600, damping: 40, mass: 0.3 });
+  // Slightly heavier + a bit less "floaty"
+  const sx = useSpring(x, { stiffness: 800, damping: 45, mass: 0.35 });
+  const sy = useSpring(y, { stiffness: 800, damping: 45, mass: 0.35 });
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
-      x.set(e.clientX - 10);
-      y.set(e.clientY - 10);
+      // center the small dot (10px radius)
+      x.set(e.clientX - 6);
+      y.set(e.clientY - 6);
     };
     window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
@@ -19,6 +21,7 @@ export default function CursorFollower() {
 
   return (
     <>
+      {/* small dot */}
       <motion.div
         style={{
           position: "fixed",
@@ -26,16 +29,18 @@ export default function CursorFollower() {
           top: 0,
           x: sx,
           y: sy,
-          width: 20,
-          height: 20,
+          width: 12,
+          height: 12,
           borderRadius: 999,
-          background: "rgba(139, 92, 246, 0.9)",
-          boxShadow: "0 0 22px rgba(139, 92, 246, 0.55)",
+          background: "rgba(13, 62, 40, 0.95)", // dark green
+          boxShadow: "0 0 12px rgba(13, 62, 40, 0.35)", // tighter glow
           pointerEvents: "none",
           zIndex: 9999,
-          mixBlendMode: "screen",
+          mixBlendMode: "multiply",
         }}
       />
+
+      {/* tighter halo */}
       <motion.div
         style={{
           position: "fixed",
@@ -43,12 +48,12 @@ export default function CursorFollower() {
           top: 0,
           x: sx,
           y: sy,
-          width: 240,
-          height: 240,
+          width: 120,
+          height: 120,
           borderRadius: 999,
-          transform: "translate(-110px, -110px)",
+          transform: "translate(-54px, -54px)",
           background:
-            "radial-gradient(circle, rgba(139,92,246,0.22) 0%, rgba(139,92,246,0.0) 60%)",
+            "radial-gradient(circle, rgba(13,62,40,0.16) 0%, rgba(13,62,40,0.0) 55%)",
           pointerEvents: "none",
           zIndex: 9998,
         }}

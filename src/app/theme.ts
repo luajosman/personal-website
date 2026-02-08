@@ -3,31 +3,33 @@ import { createTheme } from "@mui/material/styles";
 export function createAppTheme() {
   return createTheme({
     palette: {
-      mode: "dark",
-      primary: { main: "#8B5CF6" },
+      mode: "light",
+      primary: { main: "#2E2F2A" }, // warm dark
       background: {
-        default: "#0b0b10",
-        paper: "rgba(255,255,255,0.06)",
+        default: "#F4F2EC", // cream
+        paper: "rgba(46,47,42,0.06)",
+      },
+      text: {
+        primary: "#2E2F2A",
+        secondary: "rgba(46,47,42,0.72)",
       },
     },
-    shape: { borderRadius: 16 },
+    shape: { borderRadius: 18 },
     typography: {
-      fontFamily: `Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif`,
-      h1: { fontWeight: 900, letterSpacing: "-0.02em" },
-      h3: { fontWeight: 900, letterSpacing: "-0.02em" },
+      fontFamily: `ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif`,
+      button: { textTransform: "none", fontWeight: 700, letterSpacing: "0.06em" },
     },
     components: {
-      MuiPaper: {
+      MuiCssBaseline: {
         styleOverrides: {
-          root: {
-            border: "1px solid rgba(255,255,255,0.08)",
-            backgroundImage: "none",
+          body: {
+            backgroundColor: "#F4F2EC",
           },
         },
       },
       MuiButton: {
         styleOverrides: {
-          root: { textTransform: "none", fontWeight: 800 },
+          root: { borderRadius: 999 },
         },
       },
     },
