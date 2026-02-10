@@ -3,12 +3,14 @@ import { useMemo, useState } from "react";
 
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
+import Impact from "./sections/Impact";
 import About from "./sections/About";
 import Experience from "./sections/Experience";
 import Projects from "./sections/Projects";
+import Toolkit from "./sections/Toolkit";
+import Systems from "./sections/Systems";
 import Contact from "./sections/Contact";
 
-import CursorFollower from "./components/CursorFollower";
 import ScrollProgress from "./components/ScrollProgress";
 
 import { CONFIG, type Locale } from "./config";
@@ -22,24 +24,30 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <CursorFollower />
       <ScrollProgress />
 
-      <Navbar
-        locale={locale}
-        onToggleLocale={() => setLocale((l) => (l === "en" ? "de" : "en"))}
-      />
+      <Box sx={{ position: "relative", isolation: "isolate" }}>
+        <Box sx={{ position: "relative", zIndex: 1 }}>
+          <Navbar
+            locale={locale}
+            onToggleLocale={() => setLocale((l) => (l === "en" ? "de" : "en"))}
+          />
 
-      <Hero copy={copy} />
-      <Projects copy={copy} />
-      <About copy={copy} />
-      <Experience copy={copy} />
-      <Contact copy={copy} />
+          <Hero copy={copy} />
+          <Impact copy={copy} />
+          <Projects copy={copy} />
+          <About copy={copy} />
+          <Experience copy={copy} />
+          <Toolkit copy={copy} />
+          <Systems copy={copy} />
+          <Contact copy={copy} />
 
-      <Box sx={{ px: 3, py: 4, textAlign: "center" }}>
-        <Typography color="text.secondary" sx={{ letterSpacing: "0.08em", fontSize: 12 }}>
-          {copy.footer.text}
-        </Typography>
+          <Box sx={{ px: { xs: 2, md: 4, lg: 6 }, py: 4, textAlign: "center" }}>
+            <Typography color="text.secondary" sx={{ letterSpacing: "0.08em", fontSize: 12 }}>
+              {copy.footer.text}
+            </Typography>
+          </Box>
+        </Box>
       </Box>
     </ThemeProvider>
   );

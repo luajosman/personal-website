@@ -1,20 +1,19 @@
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import Section from "../components/Section";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import type { SiteCopy } from "../config";
 
 export default function Experience({ copy }: { copy: SiteCopy }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const lineScale = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
-
   const data = copy.experience.items;
 
   return (
     <Section id="experience" title={copy.experience.title} subtitle={copy.experience.subtitle}>
-      <Box ref={ref} sx={{ position: "relative", py: 1 }}>
+      <Box sx={{ position: "relative", py: 1 }}>
         <motion.div
+          initial={{ scaleY: 0 }}
+          whileInView={{ scaleY: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           style={{
             position: "absolute",
             left: 11,
@@ -22,7 +21,6 @@ export default function Experience({ copy }: { copy: SiteCopy }) {
             bottom: 8,
             width: 2,
             transformOrigin: "top",
-            scaleY: lineScale,
             background: "linear-gradient(to bottom, rgba(127,210,255,0.8), rgba(244,181,74,0.75))",
           }}
         />
@@ -54,6 +52,11 @@ export default function Experience({ copy }: { copy: SiteCopy }) {
                     p: { xs: 2, md: 2.6 },
                     background:
                       "linear-gradient(155deg, rgba(17,29,44,0.88), rgba(11,16,27,0.9) 65%)",
+                    transition: "border-color 0.2s ease, transform 0.2s ease",
+                    "&:hover": {
+                      borderColor: "rgba(244, 181, 74, 0.38)",
+                      transform: "translateY(-2px)",
+                    },
                   }}
                 >
                   <Typography fontWeight={700}>{e.role}</Typography>

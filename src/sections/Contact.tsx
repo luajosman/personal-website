@@ -5,7 +5,7 @@ import type { SiteCopy } from "../config";
 
 export default function Contact({ copy }: { copy: SiteCopy }) {
   return (
-    <Section id="contact" title={copy.contact.title} subtitle={copy.contact.subtitle}>
+    <Section id="contact" title={copy.contact.title} subtitle={copy.contact.subtitle} align="center">
       <Reveal>
         <Paper
           sx={{
@@ -14,7 +14,7 @@ export default function Contact({ copy }: { copy: SiteCopy }) {
           }}
         >
           <Stack spacing={2}>
-            <Box>
+            <Box sx={{ textAlign: "center" }}>
               <Typography variant="h5" sx={{ fontWeight: 700 }}>
                 {copy.contact.title}
               </Typography>
@@ -30,14 +30,10 @@ export default function Contact({ copy }: { copy: SiteCopy }) {
 
             <TextField multiline minRows={4} label={copy.contact.messageLabel} />
 
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2}>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2} justifyContent="center">
               <Button variant="contained">{copy.contact.sendButton}</Button>
-              <Button
-                variant="outlined"
-                component="a"
-                href="mailto:hello@example.com"
-              >
-                hello@example.com
+              <Button variant="outlined" component="a" href={`mailto:${copy.contact.directEmail}`}>
+                {copy.contact.directEmail}
               </Button>
             </Stack>
           </Stack>

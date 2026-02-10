@@ -81,3 +81,9 @@ a {
     background-size: 30px 30px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

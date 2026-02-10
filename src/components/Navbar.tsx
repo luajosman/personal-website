@@ -1,19 +1,11 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Button, Container, Stack, Toolbar, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 
 import useScrollSpy from "../hooks/useScrollSpy";
 import { CONFIG, type Locale, type NavKey } from "../config";
 
-const NAV_IDS: NavKey[] = ["projects", "about", "experience", "contact"];
+const NAV_IDS: NavKey[] = ["projects", "impact", "about", "experience", "contact"];
 
 export default function Navbar({
   locale,
@@ -41,10 +33,10 @@ export default function Navbar({
         boxShadow: "none",
       }}
     >
-      <Container>
-        <Toolbar disableGutters sx={{ py: 2 }}>
+      <Container sx={{ px: { xs: 2, md: 4, lg: 6 } }}>
+        <Toolbar disableGutters sx={{ py: 1.8 }}>
           <motion.div
-            initial={{ y: -16, opacity: 0 }}
+            initial={{ y: -14, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
             style={{ width: "100%" }}
@@ -52,79 +44,130 @@ export default function Navbar({
             <Box
               sx={{
                 width: "100%",
-                px: { xs: 1.2, md: 1.5 },
+                px: { xs: 1.2, md: 1.9 },
                 py: 1,
                 borderRadius: 999,
-                border: "1px solid rgba(194, 219, 255, 0.17)",
-                background: "rgba(9, 14, 22, 0.6)",
+                border: "1px solid rgba(194, 219, 255, 0.18)",
+                background: "rgba(9, 14, 22, 0.62)",
                 backdropFilter: "blur(12px)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: 1,
               }}
             >
-              <Button
-                onClick={() => scrollTo("projects")}
+              <Box
                 sx={{
-                  px: { xs: 1.6, md: 2 },
-                  minWidth: "unset",
-                  border: "1px solid rgba(195, 221, 255, 0.2)",
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr auto", md: "auto 1fr auto" },
+                  alignItems: "center",
+                  gap: { xs: 1, md: 1.8 },
                 }}
               >
-                <Typography
+                <Button
+                  onClick={() => scrollTo("projects")}
                   sx={{
-                    fontSize: { xs: 11, md: 12 },
-                    letterSpacing: "0.16em",
-                    whiteSpace: "nowrap",
+                    justifySelf: "start",
+                    px: { xs: 1.6, md: 2.2 },
+                    minWidth: "unset",
+                    minHeight: 38,
+                    border: "1px solid rgba(195, 221, 255, 0.24)",
+                    bgcolor: "rgba(17, 26, 40, 0.65)",
                   }}
                 >
-                  {copy.meta.brand.toUpperCase()}
-                </Typography>
-              </Button>
+                  <Typography sx={{ fontSize: { xs: 10.5, md: 11 }, letterSpacing: "0.14em" }}>
+                    {copy.meta.brand.toUpperCase()}
+                  </Typography>
+                </Button>
 
-              <Stack direction="row" spacing={0.4} sx={{ display: { xs: "none", md: "flex" } }}>
+                <Stack
+                  direction="row"
+                  spacing={1.1}
+                  justifyContent="center"
+                  sx={{
+                    display: { xs: "none", md: "flex" },
+                  }}
+                >
+                  {items.map((item) => {
+                    const isActive = active === item.id;
+                    return (
+                      <Button
+                        key={item.id}
+                        onClick={() => scrollTo(item.id)}
+                        sx={{
+                          px: 2.3,
+                          minWidth: "unset",
+                          minHeight: 40,
+                          fontSize: 11,
+                          letterSpacing: "0.08em",
+                          color: isActive ? "#f4b54a" : "text.secondary",
+                          border: isActive
+                            ? "1px solid rgba(244, 181, 74, 0.36)"
+                            : "1px solid transparent",
+                          bgcolor: isActive ? "rgba(244, 181, 74, 0.10)" : "transparent",
+                          "&:hover": {
+                            color: "text.primary",
+                            bgcolor: "rgba(171, 204, 255, 0.10)",
+                          },
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    );
+                  })}
+                </Stack>
+
+                <Button
+                  onClick={onToggleLocale}
+                  sx={{
+                    justifySelf: "end",
+                    px: 1.8,
+                    minWidth: "unset",
+                    minHeight: 38,
+                    border: "1px solid rgba(194, 219, 255, 0.24)",
+                    bgcolor: "rgba(17, 26, 40, 0.65)",
+                    "&:hover": { background: "rgba(171, 204, 255, 0.1)" },
+                  }}
+                >
+                  <Typography sx={{ fontSize: 10.5, letterSpacing: "0.14em" }}>
+                    {locale === "de" ? "EN" : "DE"}
+                  </Typography>
+                </Button>
+              </Box>
+
+              <Stack
+                direction="row"
+                spacing={0.85}
+                sx={{
+                  mt: 0.85,
+                  pb: 0.2,
+                  display: { xs: "flex", md: "none" },
+                  overflowX: "auto",
+                  scrollbarWidth: "none",
+                  "&::-webkit-scrollbar": { display: "none" },
+                }}
+              >
                 {items.map((item) => {
                   const isActive = active === item.id;
                   return (
                     <Button
-                      key={item.id}
+                      key={`mobile-${item.id}`}
                       onClick={() => scrollTo(item.id)}
                       sx={{
-                        px: 1.8,
+                        px: 1.65,
                         minWidth: "unset",
+                        minHeight: 34,
+                        whiteSpace: "nowrap",
+                        fontSize: 10,
+                        letterSpacing: "0.08em",
                         color: isActive ? "#f4b54a" : "text.secondary",
-                        background: isActive ? "rgba(244, 181, 74, 0.12)" : "transparent",
                         border: isActive
-                          ? "1px solid rgba(244, 181, 74, 0.33)"
-                          : "1px solid transparent",
-                        "&:hover": {
-                          color: "text.primary",
-                          background: "rgba(176, 208, 255, 0.1)",
-                        },
+                          ? "1px solid rgba(244, 181, 74, 0.36)"
+                          : "1px solid rgba(198, 220, 255, 0.12)",
+                        bgcolor: isActive ? "rgba(244, 181, 74, 0.10)" : "rgba(16, 25, 38, 0.62)",
                       }}
                     >
-                      <Typography sx={{ fontSize: 11, letterSpacing: "0.14em" }}>
-                        {item.label.toUpperCase()}
-                      </Typography>
+                      {item.label}
                     </Button>
                   );
                 })}
               </Stack>
-
-              <Button
-                onClick={onToggleLocale}
-                sx={{
-                  px: { xs: 1.2, md: 1.8 },
-                  minWidth: "unset",
-                  border: "1px solid rgba(194, 219, 255, 0.2)",
-                  "&:hover": { background: "rgba(171, 204, 255, 0.1)" },
-                }}
-              >
-                <Typography sx={{ fontSize: 11, letterSpacing: "0.16em" }}>
-                  {locale === "de" ? "EN" : "DE"}
-                </Typography>
-              </Button>
             </Box>
           </motion.div>
         </Toolbar>

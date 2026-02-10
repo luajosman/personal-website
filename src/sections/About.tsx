@@ -1,8 +1,17 @@
 import { Box, Chip, Paper, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import { motion } from "framer-motion";
 import Section from "../components/Section";
 import Reveal from "../components/Reveal";
 import type { SiteCopy } from "../config";
+
+const PROCESS_STEPS = [
+  { name: "Discover", note: "Product goals, users, constraints." },
+  { name: "Architect", note: "Boundaries, data contracts, scalability." },
+  { name: "Build", note: "Composable UI + robust backend services." },
+  { name: "Validate", note: "Performance, QA, instrumentation." },
+  { name: "Iterate", note: "Ship, measure, improve." },
+];
 
 export default function About({ copy }: { copy: SiteCopy }) {
   return (
@@ -87,6 +96,35 @@ export default function About({ copy }: { copy: SiteCopy }) {
             </Paper>
           </Reveal>
         </Grid>
+      </Grid>
+
+      <Grid container spacing={1.4} sx={{ mt: 1.1 }}>
+        {PROCESS_STEPS.map((step, idx) => (
+          <Grid key={step.name} size={{ xs: 12, sm: 6, md: 2.4 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.45, delay: 0.1 + idx * 0.06 }}
+            >
+              <Paper
+                sx={{
+                  p: 1.5,
+                  height: "100%",
+                  background: "linear-gradient(160deg, rgba(14,23,36,0.88), rgba(9,15,24,0.95))",
+                }}
+              >
+                <Typography sx={{ fontFamily: "monospace", color: "#f4b54a", fontSize: 12 }}>
+                  {`0${idx + 1}`}
+                </Typography>
+                <Typography sx={{ fontWeight: 700, mt: 0.5 }}>{step.name}</Typography>
+                <Typography color="text.secondary" sx={{ mt: 0.45, fontSize: 13 }}>
+                  {step.note}
+                </Typography>
+              </Paper>
+            </motion.div>
+          </Grid>
+        ))}
       </Grid>
     </Section>
   );
