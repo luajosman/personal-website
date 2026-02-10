@@ -20,7 +20,7 @@ export default function ProjectModal({
   return (
     <AnimatePresence>
       {open ? (
-        <Backdrop open sx={{ zIndex: 1300 }}>
+        <Backdrop open sx={{ zIndex: 1300, background: "rgba(6, 10, 18, 0.78)" }}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -35,33 +35,39 @@ export default function ProjectModal({
               transition={{ type: "spring", stiffness: 220, damping: 22 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <Paper sx={{ p: 3, position: "relative" }}>
+              <Paper
+                sx={{
+                  p: { xs: 2.2, md: 3 },
+                  position: "relative",
+                  background: "linear-gradient(150deg, rgba(16,27,42,0.94), rgba(10,16,25,0.94))",
+                }}
+              >
                 <IconButton
                   onClick={onClose}
-                  sx={{ position: "absolute", top: 10, right: 10 }}
+                  sx={{ position: "absolute", top: 8, right: 8 }}
                   aria-label="close"
                 >
                   <CloseIcon />
                 </IconButton>
 
-                <Typography variant="h5" fontWeight={900}>
+                <Typography variant="h5" sx={{ fontWeight: 700 }}>
                   {title}
                 </Typography>
-                <Typography color="text.secondary" sx={{ mt: 1 }}>
+                <Typography color="text.secondary" sx={{ mt: 1.2 }}>
                   {desc}
                 </Typography>
 
                 <Box
                   sx={{
-                    mt: 2,
+                    mt: 2.2,
                     p: 2,
                     borderRadius: 3,
-                    border: "1px solid rgba(255,255,255,0.10)",
-                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(127,210,255,0.26)",
+                    background: "rgba(13, 20, 31, 0.76)",
                   }}
                 >
-                  <Typography fontWeight={900}>{highlightsTitle}</Typography>
-                  <Typography color="text.secondary" sx={{ mt: 0.5 }}>
+                  <Typography sx={{ fontWeight: 700, color: "#7fd2ff" }}>{highlightsTitle}</Typography>
+                  <Typography color="text.secondary" sx={{ mt: 0.65 }}>
                     {highlightsText}
                   </Typography>
                 </Box>

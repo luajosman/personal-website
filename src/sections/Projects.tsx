@@ -19,14 +19,14 @@ export default function Projects({ copy }: { copy: SiteCopy }) {
   return (
     <>
       <Section id="projects" title={copy.projects.title} subtitle={copy.projects.subtitle}>
-        <Grid container spacing={2.5}>
+        <Grid container spacing={2.6}>
           {projects.map((p, i) => (
             <Grid key={p.title} size={{ xs: 12, md: 4 }}>
               <motion.div
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 22 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.45, delay: i * 0.06 }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
               >
                 <TiltCard>
                   <Card
@@ -37,37 +37,39 @@ export default function Projects({ copy }: { copy: SiteCopy }) {
                     sx={{
                       height: "100%",
                       cursor: "pointer",
-                      background: "rgba(255,255,255,0.05)",
-                      transition: "transform 0.2s ease",
-                      "&:hover": { transform: "translateY(-2px)" },
+                      background:
+                        "linear-gradient(170deg, rgba(16,25,37,0.84), rgba(12,18,29,0.92) 65%)",
+                      borderColor: "rgba(187, 214, 255, 0.16)",
+                      transition: "transform 0.22s ease, border-color 0.22s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        borderColor: "rgba(244, 181, 74, 0.45)",
+                      },
                     }}
                   >
                     <CardContent>
-                      <Typography variant="h6" fontWeight={900}>
+                      <Typography sx={{ fontFamily: "monospace", color: "#89c9ff", mb: 1.4 }}>
+                        {`0${i + 1}`}
+                      </Typography>
+
+                      <Typography variant="h6" fontWeight={700}>
                         {p.title}
                       </Typography>
 
-                      <Typography color="text.secondary" sx={{ mt: 1 }}>
+                      <Typography color="text.secondary" sx={{ mt: 1.2, minHeight: 75 }}>
                         {p.desc}
                       </Typography>
 
-                      <Stack direction="row" flexWrap="wrap" gap={1} sx={{ mt: 2 }}>
+                      <Stack direction="row" flexWrap="wrap" gap={0.9} sx={{ mt: 2.3 }}>
                         {p.tags.map((t) => (
-                          <Chip
-                            key={t}
-                            label={t}
-                            size="small"
-                            variant="outlined"
-                            sx={{ borderColor: "rgba(255,255,255,0.14)" }}
-                          />
+                          <Chip key={t} label={t} size="small" variant="outlined" />
                         ))}
                       </Stack>
                     </CardContent>
 
-                    <CardActions sx={{ px: 2, pb: 2 }}>
+                    <CardActions sx={{ px: 2, pb: 2.2 }}>
                       <Button
                         variant="outlined"
-                        sx={{ borderColor: "rgba(255,255,255,0.18)" }}
                         onClick={(e) => {
                           e.stopPropagation();
                           setPickedIndex(i);

@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 
 import Navbar from "./components/Navbar";
@@ -35,6 +35,12 @@ export default function App() {
       <About copy={copy} />
       <Experience copy={copy} />
       <Contact copy={copy} />
+
+      <Box sx={{ px: 3, py: 4, textAlign: "center" }}>
+        <Typography color="text.secondary" sx={{ letterSpacing: "0.08em", fontSize: 12 }}>
+          {copy.footer.text}
+        </Typography>
+      </Box>
     </ThemeProvider>
   );
 }

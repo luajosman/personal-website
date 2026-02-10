@@ -7,119 +7,74 @@ import type { SiteCopy } from "../config";
 export default function Experience({ copy }: { copy: SiteCopy }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const lineScale = useTransform(scrollYProgress, [0.15, 0.85], [0, 1]);
+  const lineScale = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
 
   const data = copy.experience.items;
 
   return (
     <Section id="experience" title={copy.experience.title} subtitle={copy.experience.subtitle}>
-      <Box ref={ref} sx={{ position: "relative", py: 2 }}>
+      <Box ref={ref} sx={{ position: "relative", py: 1 }}>
         <motion.div
           style={{
             position: "absolute",
-            left: { xs: 16, md: "50%" } as any,
-            top: 0,
-            bottom: 0,
+            left: 11,
+            top: 8,
+            bottom: 8,
             width: 2,
             transformOrigin: "top",
             scaleY: lineScale,
-            background: "rgba(139,92,246,0.45)",
-            transform: "translateX(-1px)",
+            background: "linear-gradient(to bottom, rgba(127,210,255,0.8), rgba(244,181,74,0.75))",
           }}
         />
 
-        <Stack spacing={3}>
-          {data.map((e, idx) => {
-            const isRight = idx % 2 === 0;
+        <Stack spacing={2.2}>
+          {data.map((e, idx) => (
+            <motion.div
+              key={`${e.role}-${e.company}-${idx}`}
+              initial={{ opacity: 0, x: 18 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.45, delay: idx * 0.08 }}
+            >
+              <Box sx={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 2 }}>
+                <Box
+                  sx={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: 999,
+                    mt: 1,
+                    background: "#f4b54a",
+                    boxShadow: "0 0 0 6px rgba(244,181,74,0.2)",
+                    zIndex: 1,
+                  }}
+                />
 
-            return (
-              <Box
-                key={`${e.role}-${e.company}-${idx}`}
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: { xs: "1fr", md: "1fr 60px 1fr" },
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <Box sx={{ display: { xs: "none", md: "block" } }}>
-                  {!isRight ? (
-                    <motion.div
-                      initial={{ opacity: 0, x: -25 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-80px" }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Paper sx={{ p: 2.4 }}>
-                        <CardContent e={e} />
-                      </Paper>
-                    </motion.div>
-                  ) : null}
-                </Box>
+                <Paper
+                  sx={{
+                    p: { xs: 2, md: 2.6 },
+                    background:
+                      "linear-gradient(155deg, rgba(17,29,44,0.88), rgba(11,16,27,0.9) 65%)",
+                  }}
+                >
+                  <Typography fontWeight={700}>{e.role}</Typography>
+                  <Typography sx={{ color: "#7fd2ff", fontWeight: 700, mt: 0.35 }}>{e.company}</Typography>
+                  <Typography color="text.secondary" sx={{ mt: 0.4, mb: 1.2 }}>
+                    {e.period}
+                  </Typography>
 
-                <Box sx={{ display: "grid", placeItems: "center" }}>
-                  <Box
-                    sx={{
-                      width: 14,
-                      height: 14,
-                      borderRadius: 999,
-                      background: "#8B5CF6",
-                      boxShadow: "0 0 0 6px rgba(139,92,246,0.18)",
-                    }}
-                  />
-                </Box>
-
-                <Box>
-                  {isRight ? (
-                    <motion.div
-                      initial={{ opacity: 0, x: 25 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-80px" }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Paper sx={{ p: 2.4 }}>
-                        <CardContent e={e} />
-                      </Paper>
-                    </motion.div>
-                  ) : (
-                    <Box sx={{ display: { xs: "block", md: "none" } }}>
-                      <Paper sx={{ p: 2.4 }}>
-                        <CardContent e={e} />
-                      </Paper>
-                    </Box>
-                  )}
-                </Box>
+                  <Stack spacing={0.8}>
+                    {e.bullets.map((b) => (
+                      <Typography key={b} color="text.secondary">
+                        • {b}
+                      </Typography>
+                    ))}
+                  </Stack>
+                </Paper>
               </Box>
-            );
-          })}
+            </motion.div>
+          ))}
         </Stack>
       </Box>
     </Section>
-  );
-}
-
-function CardContent({
-  e,
-}: {
-  e: { role: string; company: string; period: string; bullets: string[] };
-}) {
-  return (
-    <>
-      <Typography fontWeight={900}>{e.role}</Typography>
-      <Typography color="primary" sx={{ fontWeight: 900, mt: 0.4 }}>
-        {e.company}
-      </Typography>
-      <Typography color="text.secondary" sx={{ mt: 0.4, mb: 1.2 }}>
-        {e.period}
-      </Typography>
-
-      <Stack spacing={0.8}>
-        {e.bullets.map((b) => (
-          <Typography key={b} color="text.secondary">
-            • {b}
-          </Typography>
-        ))}
-      </Stack>
-    </>
   );
 }

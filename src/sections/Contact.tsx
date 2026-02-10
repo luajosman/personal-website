@@ -7,11 +7,20 @@ export default function Contact({ copy }: { copy: SiteCopy }) {
   return (
     <Section id="contact" title={copy.contact.title} subtitle={copy.contact.subtitle}>
       <Reveal>
-        <Paper sx={{ p: { xs: 2, md: 3 } }}>
+        <Paper
+          sx={{
+            p: { xs: 2.2, md: 3 },
+            background: "linear-gradient(145deg, rgba(16,28,43,0.9), rgba(11,17,27,0.88))",
+          }}
+        >
           <Stack spacing={2}>
             <Box>
-              <Typography fontWeight={900}>{copy.contact.title}</Typography>
-              <Typography color="text.secondary">{copy.contact.note}</Typography>
+              <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                {copy.contact.title}
+              </Typography>
+              <Typography color="text.secondary" sx={{ mt: 0.6 }}>
+                {copy.contact.note}
+              </Typography>
             </Box>
 
             <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
@@ -20,9 +29,17 @@ export default function Contact({ copy }: { copy: SiteCopy }) {
             </Stack>
 
             <TextField multiline minRows={4} label={copy.contact.messageLabel} />
-            <Box>
+
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2}>
               <Button variant="contained">{copy.contact.sendButton}</Button>
-            </Box>
+              <Button
+                variant="outlined"
+                component="a"
+                href="mailto:hello@example.com"
+              >
+                hello@example.com
+              </Button>
+            </Stack>
           </Stack>
         </Paper>
       </Reveal>

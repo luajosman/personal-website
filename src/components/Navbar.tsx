@@ -3,17 +3,17 @@ import {
   Box,
   Button,
   Container,
-  IconButton,
   Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import { useMemo } from "react";
 
 import useScrollSpy from "../hooks/useScrollSpy";
 import { CONFIG, type Locale, type NavKey } from "../config";
 
-const NAV_IDS: NavKey[] = ["projects", "about", "contact"];
+const NAV_IDS: NavKey[] = ["projects", "about", "experience", "contact"];
 
 export default function Navbar({
   locale,
@@ -23,40 +23,13 @@ export default function Navbar({
   onToggleLocale: () => void;
 }) {
   const copy = CONFIG[locale];
-  const active = useScrollSpy(NAV_IDS, 160);
+  const active = useScrollSpy(NAV_IDS, 180);
 
-  const items = useMemo(
-    () => NAV_IDS.map((id) => ({ id, label: copy.nav[id] })),
-    [copy]
-  );
+  const items = useMemo(() => NAV_IDS.map((id) => ({ id, label: copy.nav[id] })), [copy]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
-  const langLabel = locale === "de" ? "EN" : "DE";
-  const cvLabel = "Download CV";
-
-  // sizing + palette (neutral)
-  const H = 46;
-  const pillBg = "rgba(46,47,42,0.08)";
-  const softBtnBg = "rgba(244,242,236,0.60)";
-  const hoverBg = "rgba(46,47,42,0.06)";
-  const activeBorder = "rgba(46,47,42,0.40)";
-
-  // one unified button style
-  const navBtnSx = (isActive: boolean) => ({
-    height: H,
-    px: 3.8,
-    borderRadius: 999,
-    border: isActive ? `1px solid ${activeBorder}` : "1px solid transparent",
-    background: "transparent",
-    color: isActive ? "text.primary" : "rgba(46,47,42,0.78)",
-    "&:hover": {
-      background: hoverBg,
-      color: "text.primary",
-    },
-  });
 
   return (
     <AppBar
@@ -68,124 +41,92 @@ export default function Navbar({
         boxShadow: "none",
       }}
     >
-      <Container maxWidth="lg">
-        <Toolbar disableGutters sx={{ py: 2.5 }}>
-          {/* Full width header row */}
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-            }}
+      <Container>
+        <Toolbar disableGutters sx={{ py: 2 }}>
+          <motion.div
+            initial={{ y: -16, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            style={{ width: "100%" }}
           >
-            {/* LEFT: home icon */}
-            <IconButton
-              onClick={() => scrollTo("projects")}
+            <Box
               sx={{
-                width: H,
-                height: H,
+                width: "100%",
+                px: { xs: 1.2, md: 1.5 },
+                py: 1,
                 borderRadius: 999,
-                background: softBtnBg,
-                "&:hover": { background: "rgba(244,242,236,0.80)" },
+                border: "1px solid rgba(194, 219, 255, 0.17)",
+                background: "rgba(9, 14, 22, 0.6)",
+                backdropFilter: "blur(12px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 1,
               }}
-              aria-label="Home"
-              title="Home"
             >
-              <img
-                src="/favicon.svg"
-                alt="Home"
-                width={18}
-                height={18}
-                style={{ display: "block" }}
-              />
-            </IconButton>
-
-            {/* CENTER: nav pill, evenly spaced items */}
-            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-              <Box
+              <Button
+                onClick={() => scrollTo("projects")}
                 sx={{
-                  width: { xs: "100%", md: 900 }, // fixed width for even spacing
-                  maxWidth: "100%",
-                  px: 2.5,
-                  py: 1.15,
-                  borderRadius: 999,
-                  background: pillBg,
-                  backdropFilter: "blur(10px)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-evenly", // equal distance between all
-                  gap: 0, // important: spacing handled by space-evenly
+                  px: { xs: 1.6, md: 2 },
+                  minWidth: "unset",
+                  border: "1px solid rgba(195, 221, 255, 0.2)",
                 }}
               >
-                {items.map((l) => {
-                  const isActive = active === l.id;
+                <Typography
+                  sx={{
+                    fontSize: { xs: 11, md: 12 },
+                    letterSpacing: "0.16em",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {copy.meta.brand.toUpperCase()}
+                </Typography>
+              </Button>
+
+              <Stack direction="row" spacing={0.4} sx={{ display: { xs: "none", md: "flex" } }}>
+                {items.map((item) => {
+                  const isActive = active === item.id;
                   return (
-                    <Button key={l.id} onClick={() => scrollTo(l.id)} sx={navBtnSx(isActive)}>
-                      <Typography sx={{ fontSize: 12, letterSpacing: "0.22em", fontWeight: 700 }}>
-                        {l.label.toUpperCase()}
+                    <Button
+                      key={item.id}
+                      onClick={() => scrollTo(item.id)}
+                      sx={{
+                        px: 1.8,
+                        minWidth: "unset",
+                        color: isActive ? "#f4b54a" : "text.secondary",
+                        background: isActive ? "rgba(244, 181, 74, 0.12)" : "transparent",
+                        border: isActive
+                          ? "1px solid rgba(244, 181, 74, 0.33)"
+                          : "1px solid transparent",
+                        "&:hover": {
+                          color: "text.primary",
+                          background: "rgba(176, 208, 255, 0.1)",
+                        },
+                      }}
+                    >
+                      <Typography sx={{ fontSize: 11, letterSpacing: "0.14em" }}>
+                        {item.label.toUpperCase()}
                       </Typography>
                     </Button>
                   );
                 })}
-              </Box>
-            </Box>
+              </Stack>
 
-            {/* RIGHT: separate actions pill at far right */}
-            <Box
-              sx={{
-                ml: 2,
-                px: 1.25,
-                py: 1.15,
-                borderRadius: 999,
-                background: pillBg,
-                backdropFilter: "blur(10px)",
-                display: "flex",
-                alignItems: "center",
-                gap: 1.25,
-              }}
-            >
               <Button
                 onClick={onToggleLocale}
                 sx={{
-                  height: H,
-                  px: 3,
-                  borderRadius: 999,
-                  border: `1px solid rgba(46,47,42,0.18)`,
-                  background: "transparent",
-                  color: "text.primary",
-                  "&:hover": { background: hoverBg },
+                  px: { xs: 1.2, md: 1.8 },
+                  minWidth: "unset",
+                  border: "1px solid rgba(194, 219, 255, 0.2)",
+                  "&:hover": { background: "rgba(171, 204, 255, 0.1)" },
                 }}
               >
-                <Typography sx={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.22em" }}>
-                  {langLabel}
-                </Typography>
-              </Button>
-
-              <Button
-                variant="outlined"
-                component="a"
-                href="/cv.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  height: H,
-                  px: 3,
-                  borderRadius: 999,
-                  borderColor: "rgba(46,47,42,0.28)",
-                  color: "text.primary",
-                  background: "transparent",
-                  "&:hover": {
-                    borderColor: "rgba(46,47,42,0.46)",
-                    background: hoverBg,
-                  },
-                }}
-              >
-                <Typography sx={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.18em" }}>
-                  {cvLabel.toUpperCase()}
+                <Typography sx={{ fontSize: 11, letterSpacing: "0.16em" }}>
+                  {locale === "de" ? "EN" : "DE"}
                 </Typography>
               </Button>
             </Box>
-          </Box>
+          </motion.div>
         </Toolbar>
       </Container>
     </AppBar>

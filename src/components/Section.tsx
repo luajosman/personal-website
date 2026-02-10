@@ -14,17 +14,32 @@ export default function Section({
   children: ReactNode;
 }) {
   return (
-    <Box id={id} sx={{ py: { xs: 8, md: 12 } }}>
-      <Container maxWidth="lg">
+    <Box id={id} sx={{ py: { xs: 9, md: 13 }, position: "relative" }}>
+      <Container>
         <Reveal>
-          <Typography variant="h3" sx={{ mb: 1 }}>
+          <Typography
+            variant="overline"
+            sx={{
+              letterSpacing: "0.18em",
+              color: "rgba(203, 220, 255, 0.75)",
+            }}
+          >
             {title}
           </Typography>
         </Reveal>
 
         {subtitle ? (
           <Reveal delay={0.06}>
-            <Typography color="text.secondary" sx={{ mb: 4, maxWidth: 760 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                mt: 1,
+                mb: 5,
+                maxWidth: 860,
+                fontSize: { xs: 34, md: 52 },
+                lineHeight: 1.05,
+              }}
+            >
               {subtitle}
             </Typography>
           </Reveal>
